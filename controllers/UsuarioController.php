@@ -41,7 +41,6 @@ class UsuarioController
 		foreach ($resultado as $resultado) {
 			$id_bd 				= $resultado['id'];
 			$usuario_bd 		= $resultado['usuario'];
-			$foto_bd 			= $resultado['foto'];
 			$contrasena_bd 		= $resultado['contrasena'];
 			$rol_bd 			= $resultado['rol'];
 		}
@@ -52,7 +51,6 @@ class UsuarioController
 
 			$_SESSION['user_id'] 		= $id_bd;
 			$_SESSION['usuario'] 		= $usuario_bd;
-			$_SESSION['foto'] 			= $foto_bd;
 			$_SESSION['rol_usuario'] 	= $rol_bd;
 
 
@@ -124,15 +122,10 @@ class UsuarioController
 		$columns = array(
 
 			array('db' => 'id', 		'dt' => 0),
-			array('db' => 'usuario',      	'dt' => 1),
+			array('db' => 'cedula',    	'dt' => 1),
 			array('db' => 'correo',    	'dt' => 2),
-			array(
-				'db'        => 'foto',
-				'dt'        => 3,
-				'formatter' => function ($d, $row) {
-					return '<img width="50" src="./foto_usuario/' . $d . '">';
-				}
-			),
+			array('db' => 'usuario',      	'dt' => 3),
+
 			array(
 				'db'        => 'estatus',
 				'dt'        => 4,
@@ -160,164 +153,97 @@ class UsuarioController
 	/*metodo para registrar Usuario */
 	public function registrarUsuario()
 	{
-
 		/* --------- Funcion limpiar cadenas ---------*/
+		$cedula     = Validacion::limpiar_cadena($_POST['cedula']);
+		$usuario     = Validacion::limpiar_cadena($_POST['usuario']);
+		$correo      = Validacion::limpiar_cadena($_POST['correo']);
+		$fecha       = date("Y-m-d");
+		$contrasena  = Validacion::limpiar_cadena($_POST['contrasena']);
+		$rol         = Validacion::limpiar_cadena($_POST['rol']);
+		$estatus     = Validacion::limpiar_cadena($_POST['estatus']);
 
-		$usuario 				= Validacion::limpiar_cadena($_POST['usuario']);
-		$correo 				= Validacion::limpiar_cadena($_POST['correo']);
-		$fecha = date("Y-m-d");
-		$contrasena 				= Validacion::limpiar_cadena($_POST['contrasena']);
-		$rol 				= Validacion::limpiar_cadena($_POST['rol']);
-		$estatus 				= Validacion::limpiar_cadena($_POST['estatus']);
+		$modelUsuarios = new UsuarioModel();
 
-		$validator = array('success' => false, 'messages' => array());
+		/* comprobar campos vacios */
+		if ($_POST['cedula'] == "" || $_POST['usuario'] == "" || $_POST['correo'] == "" || $_POST['rol'] == "" || $_POST['contrasena'] == "" || $_POST['estatus'] == "") {
+			$data = [
+				'data' => [
+					'error'   => true,
+					'message' => 'Atención',
+					'info'    => 'Verifica que todos los campos estén llenos a la hora de registrar un usuario.'
+				],
+				'code' => 0,
+			];
 
-		if (!empty($_FILES["archivo"]["name"])) {
+			echo json_encode($data);
+			exit();
+		}
 
-			$modelUsuarios = new UsuarioModel();
-			$fileName = basename($_FILES["archivo"]["name"]);
-			$targetFilePath = './foto_usuario/' . $fileName;
+		if (Validacion::verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}", $_POST['usuario'])) {
+			$data = [
+				'data' => [
+					'error'   => true,
+					'message' => 'Datos inválidos',
+					'info'    => 'Solo se permiten caracteres alfabéticos con una longitud de 40 caracteres en el nombre del usuario.'
+				],
+				'code' => 0,
+			];
 
+			echo json_encode($data);
+			exit();
+		}
 
-			//var_dump($targetFilePath); die();
-			$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+		// Validar que el visitante no ingrese dos veces al sistema el mismo día
+		$entrada_usuario_hoy = $modelUsuarios->validarEntradaDiaUsuarios($usuario, $fecha);
 
-			$allowTypes = array('jpg', 'png', 'jpeg');
-			if (in_array($fileType, $allowTypes)) {
-				if (copy($_FILES["archivo"]["tmp_name"], $targetFilePath)) {
+		foreach ($entrada_usuario_hoy as $entrada_usuario_hoy) {
+			$id_entrada_usuario = $entrada_usuario_hoy['id'];
+		}
 
-					$uploadedFile = $fileName;
-					$fecha = date("Y-m-d");
+		if (!empty($id_entrada_usuario)) {
+			$data = [
+				'data' => [
+					'success' => false,
+					'message' => 'El usuario ya ha sido ingresado el día de hoy',
+					'info'    => 'Fecha de hoy ' . $fecha . ''
+				],
+				'code' => 0,
+			];
 
+			echo json_encode($data);
+			exit();
+		}
 
+		$datos = array(
+			'cedula'    => $_POST['cedula'],
+			'usuario'    => $_POST['usuario'],
+			'correo'     => $_POST['correo'],
+			'fecha'      => $fecha,
+			'contrasena' => $_POST['contrasena'],
+			'rol'        => $_POST['rol'],
+			'estatus'    => $_POST['estatus'],
+		);
 
+		$resultado = $modelUsuarios->registrarUsuario($datos);
 
-					/* comprobar campos vacios */
-					if ($_POST['usuario'] == "" || $_POST['correo'] == "" || $_POST['rol'] == "" || $_POST['correo'] == "" || $_POST['contrasena'] == "" || $_POST['estatus'] == "") {
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Atención',
-								'info'         => 'Verifica que todos los campos estén llenos a la hora de registrar un usuario.'
-							],
-							'code' => 0,
-						];
+		if ($resultado) {
+			$data = [
+				'data' => [
+					'success' => true,
+					'message' => 'Guardado exitosamente',
+					'info'    => 'El usuario se registró en la base de datos.'
+				],
+				'code' => 1,
+			];
 
-						echo json_encode($data);
-						exit();
-					}
-
-
-
-					if (Validacion::verificar_datos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}", $_POST['usuario'])) {
-
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Datos inválidos',
-								'info'         => 'Solo se permiten caracteres alfabéticos con una longitud de 40 caracteres en el nombre del usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-					//Validar que el visitante no ingrese dos veces al sistema el mismo día
-					$entrada_usuario_hoy = $modelUsuarios->validarEntradaDiaUsuarios($usuario, $fecha);
-
-					foreach ($entrada_usuario_hoy as $entrada_usuario_hoy) {
-						$id_entrada_usuario = $entrada_usuario_hoy['id'];
-					}
-					if (!empty($id_entrada_usuario)) {
-						$data = [
-							'data' => [
-								'success'            =>  false,
-								'message'            => 'El usuario ya ha sido ingresado el día de hoy',
-								'info'               =>  'Fecha de hoy ' . $fecha . ''
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-
-
-					$datos = array(
-						'usuario'		=> $_POST['usuario'],
-						'correo'		=> $_POST['correo'],
-						'foto'			=> $fileName,
-						'fecha'			=> $fecha,
-						'contrasena'	=> $_POST['contrasena'],
-						'rol'			=> $_POST['rol'],
-						'estatus'			=> $_POST['estatus'],
-
-					);
-
-					$resultado = $modelUsuarios->registrarUsuario($datos);
-
-					if ($resultado) {
-						$data = [
-							'data' => [
-								'success'            =>  true,
-								'message'            => 'Guardado exitosamente',
-								'info'               =>  'El usuario se registro en la base de datos.'
-							],
-							'code' => 1,
-						];
-
-						echo json_encode($data);
-						exit();
-					} else {
-						$data = [
-							'data' => [
-								'success'            =>  false,
-								'message'            => 'Error al guardar los datos',
-								'info'               =>  ''
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-				} else {
-					$data = [
-						'data' => [
-							'success'            =>  false,
-							'message'            => 'No se copio la imagen',
-							'info'               =>  ''
-						],
-						'code' => 0,
-					];
-
-					echo json_encode($data);
-					exit();
-				}
-			} else {
-				//$validator['messages'] = 'SOLO SE PERMITE FORMATOS JPG, PNG Y JPEG.';
-
-				$data = [
-					'data' => [
-						'success'            =>  false,
-						'message'            => 'Solo se permiten formatos jpg, png y jpeg.',
-						'info'               =>  ''
-					],
-					'code' => 0,
-				];
-
-				echo json_encode($data);
-				exit();
-			}
+			echo json_encode($data);
+			exit();
 		} else {
 			$data = [
 				'data' => [
-					'error'        => true,
-					'message'      => 'Atención',
-					'info'         => 'Debes subir una foto.'
+					'success' => false,
+					'message' => 'Error al guardar los datos',
+					'info'    => ''
 				],
 				'code' => 0,
 			];
@@ -326,6 +252,7 @@ class UsuarioController
 			exit();
 		}
 	}
+
 	/*metodo para registrar Usuario */
 	public function verUsuario()
 	{
@@ -339,10 +266,9 @@ class UsuarioController
 		foreach ($listar as $listar) {
 
 			$id_usuario 	= $listar['id'];
-
+			$cedula 			= $listar['cedula'];
 			$usuario 		= $listar['usuario'];
 			$correo 		= $listar['correo'];
-			$foto 			= $listar['foto'];
 			$fecha 			= $listar['fecha'];
 			$rol 			= $listar['rol'];
 			$estatus 			= $listar['estatus'];
@@ -354,9 +280,9 @@ class UsuarioController
 				'message'            => 'Registro encontrado',
 				'info'               =>  '',
 				'id'				 => $id_usuario,
+				'cedula'		     	 => $cedula,
 				'usuario'			 => $usuario,
 				'correo'			 => $correo,
-				'foto'		     	 => $foto,
 				'fecha'		     	 => $fecha,
 				'rol'		     	 => $rol,
 				'estatus'		     	 => $estatus,
@@ -372,174 +298,60 @@ class UsuarioController
 
 	public function modificarUsuario()
 	{
-
 		$validator = array('success' => false, 'messages' => array());
 
-		if (!empty($_FILES["archivo"]["name"])) {
+		$modelUsuarios = new UsuarioModel();
+		$id_usuario = $_POST['id_usuario_update'];
 
-			$modelUsuarios = new UsuarioModel();
+		/* comprobar campos vacíos */
+		if ($_POST['cedula_update'] == "" || ['usuario_update'] == "" || $_POST['correo_update'] == "" || $_POST['contrasena_update'] == "") {
+			$data = [
+				'data' => [
+					'error'        => true,
+					'message'      => 'Atención',
+					'info'         => 'Verifica que todos los campos estén llenos a la hora de modificar un usuario.'
+				],
+				'code' => 0,
+			];
 
+			echo json_encode($data);
+			exit();
+		}
 
-			$fileName = basename($_FILES["archivo"]["name"]);
-			$targetFilePath = './foto_usuario/' . $fileName;
+		$datos = array(
+			'cedula'     => $_POST['cedula_update'],
+			'usuario'     => $_POST['usuario_update'],
+			'correo'      => $_POST['correo_update'],
+			'rol'         => $_POST['rol_update'],
+			'contrasena'  => $_POST['contrasena_update'],
+		);
 
+		$resultado = $modelUsuarios->modificarUsuario($id_usuario, $datos);
 
-			$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+		if ($resultado) {
+			$data = [
+				'data' => [
+					'success' => true,
+					'message' => 'Guardado exitosamente',
+					'info'    => 'Los datos del usuario han sido modificados'
+				],
+				'code' => 1,
+			];
 
-			$allowTypes = array('jpg', 'png', 'jpeg');
-			if (in_array($fileType, $allowTypes)) {
-				if (copy($_FILES["archivo"]["tmp_name"], $targetFilePath)) {
-
-					$uploadedFile = $fileName;
-					$fecha_actual = date("d-m-Y");
-					/* comprobar campos vacios */
-
-					if ($_POST['usuario_update'] == "" || $_POST['correo_update'] == "" || $_POST['contrasena_update'] == "") {
-						$data = [
-							'data' => [
-								'error'        => true,
-								'message'      => 'Atención',
-								'info'         => 'Verifica que todos los campos estén llenos a la hora de registrar un usuario.'
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-
-
-
-
-					$id_usuario = $_POST['id_usuario_update'];
-
-					$extraer_datos_usuario = $modelUsuarios->obtenerUsuario($id_usuario);
-
-					foreach ($extraer_datos_usuario as $extraer_datos_usuario) {
-						$foto_tbl_usuario 		= $extraer_datos_usuario['foto'];
-					}
-
-					//var_dump($foto_tbl_usuario); die();
-
-					$route_photo = './foto_usuario/' . $foto_tbl_usuario;
-
-					$imagen = $route_photo;
-
-					if (file_exists($imagen)) {
-						if (unlink($imagen)) {
-							//echo "La imagen se ha eliminado correctamente.";
-						} else {
-							//echo "No se pudo eliminar la imagen.";
-						}
-					} else {
-						//echo "La imagen no existe.";
-					}
-
-					$datos = array(
-
-						'usuario'		=> $_POST['usuario_update'],
-						'correo'		=> $_POST['correo_update'],
-						'rol'			=> $_POST['rol_update'],
-						'contrasena'	=> $_POST['contrasena_update'],
-						'foto'			=> $fileName,
-
-
-					);
-
-					$resultado = $modelUsuarios->modificarUsuario($id_usuario, $datos);
-
-					if ($resultado) {
-						$data = [
-							'data' => [
-								'success'            =>  true,
-								'message'            => 'Guardado exitosamente',
-								'info'               =>  'Los datos del usuario han sido modificados'
-							],
-							'code' => 1,
-						];
-
-						echo json_encode($data);
-						exit();
-					} else {
-						$data = [
-							'data' => [
-								'success'            =>  false,
-								'message'            => 'Ocurrió un error al modificar los datos del usuario',
-								'info'               =>  ''
-							],
-							'code' => 0,
-						];
-
-						echo json_encode($data);
-						exit();
-					}
-				} else {
-					$data = [
-						'data' => [
-							'success'            =>  false,
-							'message'            => 'No se copio la imagen',
-							'info'               =>  ''
-						],
-						'code' => 0,
-					];
-
-					echo json_encode($data);
-					exit();
-				}
-			} else {
-				//$validator['messages'] = 'SOLO SE PERMITE FORMATOS JPG, PNG Y JPEG.';
-
-				$data = [
-					'data' => [
-						'success'            =>  false,
-						'message'            => 'Solo se permiten formatos jpg, png y jpeg.',
-						'info'               =>  ''
-					],
-					'code' => 0,
-				];
-
-				echo json_encode($data);
-				exit();
-			}
+			echo json_encode($data);
+			exit();
 		} else {
+			$data = [
+				'data' => [
+					'success' => false,
+					'message' => 'Ocurrió un error al modificar los datos del usuario',
+					'info'    => ''
+				],
+				'code' => 0,
+			];
 
-			$modelUsuarios = new UsuarioModel();
-			$id_usuario = $_POST['id_usuario_update'];
-
-			$datos = array(
-				'usuario'		=> $_POST['usuario_update'],
-				'correo'		=> $_POST['correo_update'],
-				'rol'			=> $_POST['rol_update'],
-				'contrasena'	=> $_POST['contrasena_update'],
-			);
-
-			$resultado = $modelUsuarios->modificarUsuario($id_usuario, $datos);
-
-			if ($resultado) {
-				$data = [
-					'data' => [
-						'success'            =>  true,
-						'message'            => 'Guardado exitosamente',
-						'info'               =>  'Los datos del usuario han sido modificados'
-					],
-					'code' => 1,
-				];
-
-				echo json_encode($data);
-				exit();
-			} else {
-				$data = [
-					'data' => [
-						'success'            =>  false,
-						'message'            => 'Ocurrió un error al modificar los datos del usuario',
-						'info'               =>  ''
-					],
-					'code' => 0,
-				];
-
-				echo json_encode($data);
-				exit();
-			}
+			echo json_encode($data);
+			exit();
 		}
 	}
 

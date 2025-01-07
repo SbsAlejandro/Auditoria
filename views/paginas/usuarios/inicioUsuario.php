@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Inventario | INICIO</title>
+  <title>Auditoria | INICIO</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -34,37 +34,27 @@
 </head>
 
 <body style=" background:#1b408a;min-height: 100vh; background-size: cover; display: flex; flex-direction: column;align-items: center; justify-content: center;">
-  <!-- ID Particles.js -->
-  <!-- <div style=" width: 100%; height: 100%;position: fixed;background: rgb(0 0 0 / 0%);" id="particles-js"></div> -->
   <main>
-    <div class="center">
-      <form class="row g-3 needs-validation" novalidate>
+    <form>
+      <div class="text-center">
+        <img src="libs/img/Minpesca2.png" style="width: 74%;margin: 3%;">
+        <h1 style="font-size: 112%;margin: 13px;" class="h4 text-gray-900 mb-4">AUDITORIA</h1>
+      </div>
+      <div class="group">
 
-        <div class="flex">
-          <img src="libs/img/Minpesca2.png" style="width: 49%;">
-        </div>
-        <form class="row g-3 needs-validation" novalidate>
-          <div class="txt_field">
-            <input type="text" name="usuario" id="usuario" required>
-            <span></span>
-            <label style="color:black;">Usuario</label>
-            <br>
-          </div>
-          <div class="txt_field">
-            <input type="password" name="contrasena" id="contrasena" required>
-            <span></span>
-            <label style="color:black;">Contraseña</label>
-            <br>
-          </div>
-          <input id="iniciar_sesion" type="submit" value="Entrar">
+        <input type="text" id="usuario" aria-describedby="emailHelp"><span class="QAhighlight"></span><span class="bar"></span>
+        <label for="usuario">Usuario</label>
+      </div>
+      <div class="group">
 
-          <div class="signup_link">
-
-          </div>
-        </form>
-    </div>
-  </main><!-- End #main -->
-
+        <input id="contrasena" type="password"><span class="highlight"></span><span class="bar"></span>
+        <label for="password">Contraseña</label>
+      </div>
+      <button type="submit" id="iniciar_sesion" class="button buttonBlue">Ingresar
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+      </button>
+    </form>
+  </main>
 
 
 

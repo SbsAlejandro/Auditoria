@@ -37,8 +37,9 @@ if (!empty($page)) {
 		'inicioAuditoria' => array('model' => 'AuditoriaModel', 'view' => 'inicioAuditoria', 'controller' => 'AuditoriaController'),
 		'listarAuditoria' => array('model' => 'AuditoriaModel', 'view' => 'listarAuditoria', 'controller' => 'AuditoriaController'),
 		'registrarAuditoria' => array('model' => 'AuditoriaModel', 'view' => 'registrarAuditoria', 'controller' => 'AuditoriaController'),
-		'registrarAuditoriatemporales' => array('model' => 'AuditoriaModel', 'view' => 'registrarAuditoriatemporales', 'controller' => 'AuditoriaController'),
-
+		'registrarAuditoriaTemporal' => array('model' => 'AuditoriaModel', 'view' => 'registrarAuditoriaTemporal', 'controller' => 'AuditoriaController'),
+		'eliminarAuditoriaTemporal' => array('model' => 'AuditoriaModel', 'view' => 'eliminarAuditoriaTemporal', 'controller' => 'AuditoriaController'),
+		'verAuditoria' => array('model' => 'AuditoriaModel', 'view' => 'verAuditoria', 'controller' => 'AuditoriaController'),
 
 
 

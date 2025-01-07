@@ -80,13 +80,16 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
-                <img src="libs/img/Minpesca2.png" alt="" style="    max-height: 105px; width: 36%">
+                <img src="libs/img/Minpesca2.png" alt="" style="max-height: 131px;width: 61%;">
                 <!--     <img src="libs/img/logo.png" alt="" style="max-height: 68px;">
                 -->
                 <!-- <span class="d-none d-lg-block">Jornadas De Ferias</span> -->
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
+        <div class="row">
+            <img style="position: relative;left: 3%;width: 48%;" class="img1" src="libs/img/logo1.png" alt="logo 1">
+        </div>
 
 
         <nav class="header-nav ms-auto">
@@ -104,7 +107,6 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="<?= SERVERURL ?>foto_usuario/<?= $foto ?>" alt="Profile" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $usuario ?></span>
                     </a><!-- End Profile Iamge Icon -->
 

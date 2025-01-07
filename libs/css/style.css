@@ -411,7 +411,7 @@ h6 {
 .header {
   transition: all 0.5s;
   z-index: 997;
-  height: 67px;
+  height: 80px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
   background-color: #1b408a;
   padding-left: 20px;
@@ -633,7 +633,7 @@ h6 {
 --------------------------------------------------------------*/
 .sidebar {
   position: fixed;
-  top: 60px;
+  top: 83px;
   left: 0;
   bottom: 0;
   width: 300px;

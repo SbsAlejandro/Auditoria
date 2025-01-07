@@ -17,6 +17,7 @@
 <script src="libs/js/iniciarSesion.js"></script>
 <script src="libs/js/sweetalert2.all.min.js"></script>
 <script src="libs/js/main.js"></script>
+<script src="libs/js/alertasBootstrap5.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script><!-- Select2 -->
 
 

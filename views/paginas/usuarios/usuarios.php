@@ -91,9 +91,9 @@ if ($rol == 3) {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Usuario</th>
+                                        <th>Cédula</th>
                                         <th>Correo</th>
-                                        <th>Foto</th>
+                                        <th>Usuario</th>
                                         <th>Estatus</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -134,8 +134,16 @@ if ($rol == 3) {
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="usuario">Usuario</label>
-                                    <input class="form-control" type="text" name="usuario" id="usuario" maxlength="40" onkeyup="mayus(this);" placeholder="Ingresa el nombre de usuario">
+                                    <label for="cedula">Cédula</label>
+                                    <input
+                                        class="form-control"
+                                        type="text"
+                                        name="cedula"
+                                        id="cedula"
+                                        maxlength="11"
+                                        placeholder="Ingrese su cédula"
+                                        required>
+                                    <span id="cedulaError" class="error"></span>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -173,8 +181,8 @@ if ($rol == 3) {
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="subirfoto2">Foto</label>
-                                    <input type="file" class="form-control" name="archivo" id="subirfoto2" accept="image/*">
+                                    <label for="usuario">Usuario</label>
+                                    <input class="form-control" type="text" name="usuario" id="usuario" maxlength="40" onkeyup="mayus(this);" placeholder="Ingresa el nombre de usuario">
                                 </div>
                             </div>
                         </div>
@@ -212,17 +220,26 @@ if ($rol == 3) {
                     <!-- Campos de usuario y correo -->
                     <div class="row">
                         <div class="col-sm-6">
-                            <label for="usuario_update">Usuario</label>
-                            <input class="form-control" type="text" id="usuario_update" name="usuario_update" maxlength="40" onkeyup="mayus(this);" placeholder="Nombre de usuario">
+                            <div class="form-group">
+                                <label for="cedula_update">Cédula</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    name="cedula_update"
+                                    id="cedula_update"
+                                    maxlength="11"
+                                    placeholder="Ingrese su cédula"
+                                    required>
+                                <span id="cedulaError" class="error"></span>
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <label for="correo_update">Correo</label>
                             <input class="form-control" type="email" id="correo_update" name="correo_update" maxlength="60" onkeyup="mayus(this);" placeholder="Correo electrónico">
                         </div>
                     </div>
-
                     <!-- Contraseña y Confirmación -->
-                    <div class="row">
+                    <div class="row mb4">
                         <div class="col-sm-6">
                             <label for="contrasena_update">Contraseña</label>
                             <input class="form-control" type="password" id="contrasena_update" name="contrasena_update" maxlength="60" placeholder="Contraseña">
@@ -232,9 +249,11 @@ if ($rol == 3) {
                             <input class="form-control" type="password" id="confirmar_contrasena_update" name="confirmar_contrasena_update" maxlength="60" placeholder="Confirmar contraseña">
                         </div>
                     </div>
-
-                    <!-- Rol y Foto -->
-                    <div class="row">
+                    <div class="row mb4">
+                        <div class="col-sm-6">
+                            <label for="usuario_update">Usuario</label>
+                            <input class="form-control" type="text" id="usuario_update" name="usuario_update" maxlength="40" onkeyup="mayus(this);" placeholder="Nombre de usuario">
+                        </div>
                         <div class="col-sm-6">
                             <label for="rol_update">Rol</label>
                             <select class="form-control" name="rol_update" id="rol_update">
@@ -245,31 +264,16 @@ if ($rol == 3) {
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-sm-6" id="cont_input_file" style="display: none;">
-                            <label for="subirfotoUpdate">Foto</label>
-                            <input type="file" class="form-control" name="archivo" id="subirfotoUpdate" accept="image/*">
-                        </div>
                     </div>
-
-                    <!-- Vista previa de la foto y Checkbox -->
-                    <div class="row mt-3">
+                    <div class="row mb4">
                         <div class="col-sm-6">
-                            <img class="img-fluid rounded-circle" id="img_update_preview" src="" alt="Foto de usuario">
+                            <label for="estatus_update">Estatus</label>
+                            <select class="form-control" name="estatus_update" id="estatus_update">
+                                <option value="">Seleccione</option>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
+                            </select>
                         </div>
-                        <div class="col-sm-6 form-check">
-                            <input type="checkbox" class="form-check-input" id="check_foto" name="check_foto">
-                            <label class="form-check-label" for="check_foto">Actualizar foto de perfil</label>
-                        </div>
-                    </div>
-
-                    <!-- Estatus y Botones -->
-                    <div class="col-sm-4">
-                        <label for="estatus_update">Estatus</label>
-                        <select class="form-control" name="estatus_update" id="estatus_update">
-                            <option value="">Seleccione</option>
-                            <option value="1">Activo</option>
-                            <option value="2">Inactivo</option>
-                        </select>
                     </div>
 
                     <div class="modal-footer mt-4">
@@ -285,33 +289,31 @@ if ($rol == 3) {
 
 
 <!-- Modal Visualizar Usuario-->
-<div class="modal fade" id="modalVisualizarUsuario" tabindex="-1" aria-labelledby="modalVisualizarUsuarioLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modalVisualizarUsuario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modalVisualizarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalVisualizarUsuarioLabel">Usuario</h5>
+                <h5 class="modal-title" id="modalVisualizarUsuarioLabel">Informacion del Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="list-group">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <a style="height: 32vh;" title="Datos del usuario" href="#" class="list-group-item  list-group-item-action active">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">Informacion del Usuario</h5>
-                                    <small id="fecha_usuario"></small>
-                                </div>
-                                <p id="usuario_usuario" class="mb-1"></p>
-                                <p id="correo_usuario" class="mb-1"></p>
-                                <p id="estatus_usuario" class="mb-1"></p>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hove">
+                        <tr>
+                            <th>Cedula</th>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Estatus</th>
+                        </tr>
+                        <tr>
+                            <td id="cedula_usuario"></td>
+                            <td id="usuario_usuario"></td>
+                            <td id="correo_usuario"></td>
+                            <td id="fecha_usuario"></td>
+                            <td id="estatus_usuario"></td>
 
-
-                            </a>
-                        </div>
-                        <div class="col-sm-6">
-                            <img title="Foto del usuario" style="width: 100%; height: 100%;" id="foto_usuario" src="" alt="">
-                        </div>
-                    </div>
+                        </tr>
+                    </table>
                 </div>
 
             </div>

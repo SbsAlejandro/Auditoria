@@ -104,7 +104,7 @@ function mostrarHabilidades() {
     habilidadesDiv.style.display = "block";
   } else {
     habilidadesDiv.style.display = "none";
-    calificacionDiv.style.display = "none"; // Ocultar calificación si no se selecciona idioma
+    calificacionDiv.style.display = "none";
   }
 
   // Agregar evento para mostrar la calificación solo si se selecciona al menos una habilidad
@@ -138,11 +138,11 @@ function mostrarOpcionesTrabajo(trabaja) {
   const contenedorDatos = document.getElementById("temporal_familiar");
 
   if (trabaja) {
-    campoDondeTrabaja.style.display = "block"; // Muestra "¿Dónde trabaja?"
-    contenedorDatos.style.display = "block"; // Muestra la tabla de datos
+    campoDondeTrabaja.style.display = "block";
+    contenedorDatos.style.display = "block";
   } else {
-    campoDondeTrabaja.style.display = "none"; // Oculta "¿Dónde trabaja?"
-    contenedorDatos.style.display = "none"; // Oculta la tabla de datos
+    campoDondeTrabaja.style.display = "none";
+    contenedorDatos.style.display = "none";
   }
 }
 
@@ -153,66 +153,42 @@ function mostrarOpcionesTrabajo(trabaja) {
   const filasTabla = document.querySelectorAll("#multiples_auditoria tbody tr");
 
   if (trabaja) {
-    campoDondeTrabaja.style.display = "block"; // Muestra "¿Dónde trabaja?"
-    columnaDonde.style.display = ""; // Muestra columna "Dónde"
-    filasTabla.forEach((fila) => (fila.cells[7].style.display = "")); // Muestra celda "Dónde"
+    campoDondeTrabaja.style.display = "block";
+    columnaDonde.style.display = "";
+    filasTabla.forEach((fila) => (fila.cells[7].style.display = ""));
   } else {
-    campoDondeTrabaja.style.display = "none"; // Oculta "¿Dónde trabaja?"
-    columnaDonde.style.display = "none"; // Oculta columna "Dónde"
-    filasTabla.forEach((fila) => (fila.cells[7].style.display = "none")); // Oculta celda "Dónde"
+    campoDondeTrabaja.style.display = "none";
+    columnaDonde.style.display = "none";
+    filasTabla.forEach((fila) => (fila.cells[7].style.display = "none"));
   }
 }
+
 /*-----------------Listar Auditoria-------------*/
 $(document).ready(function () {
   $("#tablaAuditoria").DataTable({
     order: [[0, "DESC"]],
-    procesing: true,
+    processing: false,
     serverSide: true,
     ajax: "index.php?page=listarAuditoria",
     pageLength: 4,
     createdRow: function (row, data, dataIndex) {
-      if (data[4] == 0) {
-        $(row).addClass("table-danger");
-      } else {
-        //$(row).addClass('table-success');
-      }
+      // Puedes agregar lógica adicional aquí si es necesario
     },
     columnDefs: [
       {
         orderable: false,
-        targets: 3,
+        targets: 6,
         render: function (data, type, row, meta) {
-          if (row[4] == 1) {
-            let botones =
-              `
-                          <button type="button" class="btn btn-primary btn-sm" onclick="verAuditoria(` +
-              row[0] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
-         
-                         <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionAuditoria(` +
-              row[0] +
-              `)"><i class="fas fa-edit"></i></button>&nbsp;
-         
-                         <button type="button" class="btn btn-danger btn-sm" onclick="inactivarAuditoria(` +
-              row[0] +
-              `)"><i class="fas fa-trash"></i></button>  `;
-            return botones;
-          } else {
-            let botones =
-              `
-                      <button type="button" class="btn btn-primary btn-sm" onclick="VerAuditoria(` +
-              row[0] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
-     
-                     <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionAuditoria(` +
-              row[0] +
-              `)"><i class="fas fa-edit"></i></button>&nbsp;
-     
-                     <button type="button" class="btn btn-success btn-sm" onclick="inactivarAuditoria(` +
-              row[0] +
-              `)"><i class="fas fa-fas fa-retweet"></i></button>  `;
-            return botones;
-          }
+          let botones = `
+            <a class="btn btn-primary btn-sm" title="Ver jornada" href="?page=verAuditoria&id=${row[0]}">
+              <i class="fas fa-eye"></i>
+            </a>
+            &nbsp;
+            <button type="button" class="btn btn-warning btn-sm" onclick="listarActualizacionAuditoria(${row[0]})">
+              <i class="fas fa-edit"></i>
+            </button>
+          `;
+          return botones;
         },
       },
     ],
@@ -221,18 +197,17 @@ $(document).ready(function () {
       decimal: "",
       emptyTable: "No hay información",
       info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+      infoEmpty: "Mostrando 0 a 0 de 0 Entradas",
       infoFiltered: "(Filtrado de _MAX_ total entradas)",
       infoPostFix: "",
       thousands: ",",
       lengthMenu: "Mostrar _MENU_ Entradas",
       loadingRecords: "Cargando...",
-      processing: "Procesando...",
       search: "Buscar:",
       zeroRecords: "Sin resultados encontrados",
       paginate: {
         first: "Primero",
-        last: "Ultimo",
+        last: "Último",
         next: "Siguiente",
         previous: "Anterior",
       },
@@ -248,42 +223,73 @@ if ((agregar_auditoria = document.getElementById("agregar_auditoria"))) {
   function agregarAuditoria(e) {
     e.preventDefault();
 
+    // Obtener los valores de los campos del formulario
     let nombre = document.getElementById("nombre").value;
+    let apellido = document.getElementById("apellido").value;
+    let cedula = document.getElementById("cedula").value;
+    let sexo = document.getElementById("sexo").value;
+    let fecha_nacimiento = document.getElementById("fecha_nacimiento").value;
+    let parentesco = document.getElementById("parentesco").value;
+    let nombrefamiliar = document.getElementById("nombrefamiliar").value;
+    let apellidofamiliar = document.getElementById("apellidofamiliar").value;
+    let cedulafamiliar = document.getElementById("cedulafamiliar").value;
+    let trabajafamiliar = document.getElementById("trabajafamiliar").value;
+    let dondetrabajafamiliar = document.getElementById(
+      "dondetrabajafamiliar"
+    ).value;
 
-    let estatus = document.getElementById("estatus").value;
-    /* comprobar campos vacios */
-    if (nombre == "" || estatus == "") {
-      Swal.fire({
+    // Validar campos obligatorios
+    if (
+      nombre == "" ||
+      apellido == "" ||
+      cedula == "" ||
+      sexo == "" ||
+      fecha_nacimiento == "" ||
+      parentesco == ""
+    ) {
+      /*  Swal.fire({
         icon: "error",
         title: "Campos vacíos",
-        text: "Todos los campos son obligatorios",
+        text: "Todos los campos obligatorios deben ser completados.",
         confirmButtonColor: "#3085d6",
-      });
+      }); */
       return;
     }
 
+    // Realizar la solicitud AJAX
     $.ajax({
-      url: "index.php?page=registrarAuditoria",
-      type: "post",
+      url: "index.php?page=registrarAuditoria", // Asegúrate de que esta URL sea correcta
+      type: "POST",
       dataType: "json",
       data: {
         nombre: nombre,
-        estatus: estatus,
+        apellido: apellido,
+        cedula: cedula,
+        sexo: sexo,
+        fecha_nacimiento: fecha_nacimiento,
+        parentesco: parentesco,
+        nombrefamiliar: nombrefamiliar,
+        apellidofamiliar: apellidofamiliar,
+        cedulafamiliar: cedulafamiliar,
+        trabajafamiliar: trabajafamiliar,
+        dondetrabajafamiliar: dondetrabajafamiliar,
       },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
+      success: function (response) {
+        if (response.data.success) {
+          // Cerrar el modal y mostrar mensaje de éxito
           $("#modalAgregarAuditoria").modal("hide");
 
-          Swal.fire({
+          /*        Swal.fire({
             icon: "success",
             confirmButtonColor: "#3085d6",
             title: response.data.message,
             text: response.data.info,
-          });
+          }); */
 
+          // Recargar la tabla o realizar cualquier acción necesaria
           $("#tablaAuditoria").DataTable().ajax.reload();
         } else {
+          // Mostrar mensaje de error
           Swal.fire({
             icon: "error",
             confirmButtonColor: "#3085d6",
@@ -291,172 +297,140 @@ if ((agregar_auditoria = document.getElementById("agregar_auditoria"))) {
             text: response.data.info,
           });
         }
-      })
-      .fail(function () {
-        console.log("error");
-      });
+      },
+      error: function () {
+        // Mostrar mensaje de error si falla la solicitud AJAX
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al enviar la solicitud.",
+          confirmButtonColor: "#3085d6",
+        });
+      },
+    });
   }
 }
 
-// Variable para el botón "Agregar Auditoria"
-var agregarauditoria;
-if ((agregarauditoria = document.getElementById("agregarAuditoria"))) {
-  agregarauditoria.addEventListener("click", agregarAuditoria, false);
+// Variable para el botón "Agregar Auditoría"
+var agregarAuditoria;
+if ((agregarAuditoria = document.getElementById("agregarAuditoria"))) {
+  agregarAuditoria.addEventListener("click", agregarAuditoriaHandler, false);
 
-  function agregarAuditoria() {
-    // Llamamos al loader para que se muestre en pantalla
+  function agregarAuditoriaHandler() {
     document.getElementById("cont-loader").removeAttribute("style");
 
-    // Recolectamos los valores de cada input por su id correspondiente
-    let nombre = document.getElementById("nombre").value;
-    let apellido = document.getElementById("apellido").value;
-    let cedula = document.getElementById("cedula").value;
+    // Recolectar valores de los campos del formulario
+    let nombrefamiliar = document.getElementById("nombrefamiliar").value;
+    let apellidofamiliar = document.getElementById("apellidofamiliar").value;
+    let cedulafamiliar = document.getElementById("cedulafamiliar").value;
     let parentesco = document.getElementById("parentesco").value;
-    let fecha_nacimiento = document.getElementById("fecha_nacimiento").value;
-    let sexo = document.querySelector('input[name="sexo"]:checked')
-      ? document.querySelector('input[name="sexo"]:checked').value
-      : "";
-    let trabaja = document.querySelector('input[name="trabaja"]:checked')
-      ? document.querySelector('input[name="trabaja"]:checked').value
-      : "";
-    let dondeTrabaja = document.getElementById("dondeTrabaja").value;
+    let fecha_nacimiento_familiar = document.getElementById(
+      "fecha_nacimiento_familiar"
+    ).value;
+    let sexofamiliar = document.getElementById("sexofamiliar").value;
+    let trabajafamiliar = document.getElementById("trabajafamiliar").value;
+    let dondetrabajafamiliar = document.getElementById(
+      "dondetrabajafamiliar"
+    ).value;
 
-    // Comprobamos si los campos están vacíos
-    /*     if (
-      nombre === "" ||
-      apellido === "" ||
-      cedula === "" ||
+    // Verificar si algún campo está vacío
+    if (
+      nombrefamiliar === "" ||
+      apellidofamiliar === "" ||
+      cedulafamiliar === "" ||
       parentesco === "" ||
-      fecha_nacimiento === "" ||
-      sexo === ""
+      fecha_nacimiento_familiar === "" ||
+      sexofamiliar === "" ||
+      trabajafamiliar === ""
     ) {
       document
         .getElementById("cont-loader")
         .setAttribute("style", "display:none;");
-      Swal.fire({
-        icon: "error",
-        title: "Campos vacíos",
-        text: "Todos los campos son obligatorios.",
-        confirmButtonColor: "#3085d6",
-      });
+      createAlert(
+        "danger",
+        "Verificar que todos los campos estén llenos a la hora de registrar un familiar.",
+        "alertModalCrearAuditoria"
+      );
       return;
-    } */
+    }
 
-    // Realizamos la llamada AJAX para guardar el prestario temporal
     $.ajax({
-      url: "index.php?page=registrarAuditoriatemporales",
+      url: "index.php?page=registrarAuditoriaTemporal",
       type: "post",
       dataType: "json",
       data: {
-        nombre: nombre,
-        apellido: apellido,
-        cedula: cedula,
+        nombrefamiliar: nombrefamiliar,
+        apellidofamiliar: apellidofamiliar,
+        cedulafamiliar: cedulafamiliar,
         parentesco: parentesco,
-        fecha_nacimiento: fecha_nacimiento,
-        sexo: sexo,
-        trabaja: trabaja,
-        dondeTrabaja: dondeTrabaja,
+        fecha_nacimiento_familiar: fecha_nacimiento_familiar,
+        sexofamiliar: sexofamiliar,
+        trabajafamiliar: trabajafamiliar,
+        dondetrabajafamiliar: dondetrabajafamiliar,
       },
     })
       .done(function (response) {
-        if (response.data.success == true) {
-          document
-            .getElementById("cont-loader")
-            .setAttribute("style", "display:none;");
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          // Contador para los elementos añadidos
-          let contador =
-            document.querySelectorAll("#multiples_auditoria tbody tr").length +
-            1;
-
-          // Mostramos el contenedor de datos
-          document.getElementById("temporal_familiar").removeAttribute("style");
-
-          // Creamos el ID dinámico para los elementos
+        document
+          .getElementById("cont-loader")
+          .setAttribute("style", "display:none;");
+        if (response.data.success === true) {
+          let contador = response.data.contador || 1;
           let id_contenedor = "contenedor_" + contador;
-          let id_accion = "id_accion_" + contador;
-          let id_nombre = "id_nombre_" + contador;
-          let id_apellido = "id_apellido_" + contador;
-          let id_cedula = "id_cedula_" + contador;
-          let id_parentesco = "id_parentesco_" + contador;
-          let id_fecha = "id_fecha_" + contador;
-          let id_sexo = "id_sexo_" + contador;
-          let id_trabaja = "id_trabaja_" + contador;
-          let id_donde = "id_donde_" + contador;
 
-          // Creamos el contenedor de la fila
           var cont_elemento = document.createElement("tr");
           cont_elemento.setAttribute("id", id_contenedor);
+          cont_elemento.setAttribute(
+            "style",
+            "border: solid 1px #ccc; padding: 10px;"
+          );
           document
-            .getElementById("multiples_auditoria")
+            .getElementById("multiples_familiar")
             .appendChild(cont_elemento);
 
-          // Creamos y añadimos las celdas para cada dato
-          var td_nombre = document.createElement("td");
-          td_nombre.setAttribute("id", id_nombre);
-          td_nombre.innerHTML = nombre;
-          cont_elemento.appendChild(td_nombre);
+          [
+            "nombrefamiliar",
+            "apellidofamiliar",
+            "cedulafamiliar",
+            "parentesco",
+            "fecha_nacimiento_familiar",
+            "sexofamiliar",
+            "trabajafamiliar",
+            "dondetrabajafamiliar",
+          ].forEach((campo) => {
+            var td_campo = document.createElement("td");
+            td_campo.setAttribute("class", campo);
+            td_campo.setAttribute(
+              "style",
+              "border: solid 1px #ccc; padding: 10px;"
+            );
+            td_campo.innerHTML = response.data[campo];
+            cont_elemento.appendChild(td_campo);
+          });
 
-          var td_apellido = document.createElement("td");
-          td_apellido.setAttribute("id", id_apellido);
-          td_apellido.innerHTML = apellido;
-          cont_elemento.appendChild(td_apellido);
-
-          var td_cedula = document.createElement("td");
-          td_cedula.setAttribute("id", id_cedula);
-          td_cedula.innerHTML = cedula;
-          cont_elemento.appendChild(td_cedula);
-
-          var td_parentesco = document.createElement("td");
-          td_parentesco.setAttribute("id", id_parentesco);
-          td_parentesco.innerHTML = parentesco;
-          cont_elemento.appendChild(td_parentesco);
-
-          var td_fecha = document.createElement("td");
-          td_fecha.setAttribute("id", id_fecha);
-          td_fecha.innerHTML = fechaNacimiento;
-          cont_elemento.appendChild(td_fecha);
-
-          var td_sexo = document.createElement("td");
-          td_sexo.setAttribute("id", id_sexo);
-          td_sexo.innerHTML = sexo === "M" ? "Masculino" : "Femenino";
-          cont_elemento.appendChild(td_sexo);
-
-          var td_trabaja = document.createElement("td");
-          td_trabaja.setAttribute("id", id_trabaja);
-          td_trabaja.innerHTML = trabaja === "si" ? "Sí" : "No";
-          cont_elemento.appendChild(td_trabaja);
-
-          var td_donde = document.createElement("td");
-          td_donde.setAttribute("id", id_donde);
-          td_donde.innerHTML = trabaja === "si" ? dondeTrabaja : "N/A";
-          cont_elemento.appendChild(td_donde);
-
-          // Añadimos la acción de eliminar
+          // Crear botón de eliminar con icono
           var td_accion_borrar = document.createElement("td");
-          td_accion_borrar.setAttribute("id", id_accion);
-          cont_elemento.appendChild(td_accion_borrar);
+          td_accion_borrar.setAttribute(
+            "style",
+            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+          );
 
           var btn_delete = document.createElement("button");
           btn_delete.setAttribute("class", "btn btn-danger btn-sm");
-          btn_delete.setAttribute("title", "Eliminar");
+          btn_delete.setAttribute("title", "Remover");
           btn_delete.setAttribute("type", "button");
           btn_delete.setAttribute(
             "onclick",
-            "eliminarPrestarioTemporal('" + id_contenedor + "')"
+            "eliminarAuditoriaTemporal(" + response.data.id_auditoria + ")"
           );
-          btn_delete.innerHTML = "<i class='fas fa-trash'></i>";
+          btn_delete.setAttribute("style", "background:#dc3545; color: #FFF;");
+
+          var icono_btn_delete = document.createElement("i");
+          icono_btn_delete.setAttribute("class", "fas fa-trash");
+          btn_delete.appendChild(icono_btn_delete);
+
           td_accion_borrar.appendChild(btn_delete);
+          cont_elemento.appendChild(td_accion_borrar);
         } else {
-          document
-            .getElementById("cont-loader")
-            .setAttribute("style", "display:none;");
           Swal.fire({
             icon: "error",
             confirmButtonColor: "#3085d6",
@@ -469,7 +443,58 @@ if ((agregarauditoria = document.getElementById("agregarAuditoria"))) {
         document
           .getElementById("cont-loader")
           .setAttribute("style", "display:none;");
-        console.log("Error en la solicitud");
+        console.error("Error en la solicitud AJAX");
       });
+    function showBootstrapAlert(type, message) {
+      // Create alert container
+      const alertDiv = document.createElement("div");
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+      alertDiv.role = "alert";
+
+      createAlert(
+        "danger",
+        "El campo tasa bcv esta en blanco",
+        "alertModalCrearAuditoria"
+      );
+
+      return;
+    }
+
+    createAlert(
+      "success",
+      "El registro fue Guardado exitosamente",
+      "alertModalCrearAuditoria"
+    );
+
+    document.getElementById("agregarAuditoria").removeAttribute("disabled");
+    document.getElementById("agregarAuditoria").value = "";
   }
+}
+
+function eliminarAuditoriaTemporal(id) {
+  console.log("ID de auditoría: " + id);
+
+  $.ajax({
+    url: "index.php?page=eliminarAuditoriaTemporal",
+    type: "POST",
+    dataType: "json",
+    data: {
+      id_auditoria: id,
+    },
+    success: function (response) {
+      if (response.data.success === true) {
+        // Eliminar la fila de la tabla
+        var row = document.getElementById("contenedor_" + id);
+        if (row) row.remove();
+
+        // Mostrar un mensaje de éxito
+        alert("Auditoría eliminada exitosamente.");
+      } else {
+        alert(response.data.message);
+      }
+    },
+    error: function () {
+      alert("Error al intentar eliminar la auditoría.");
+    },
+  });
 }

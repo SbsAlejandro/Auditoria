@@ -127,8 +127,12 @@ if ($rol == 3) {
     echo "<h1>No tienes los permisos suficientes para ingresar en este modulo</h1>";
 } else {
 ?>
-    <div class="pagetitle">
-        <h1>Auditoria de Gestión Humana</h1>
+    <br>
+
+    <div class="row mb-4">
+        <div class="pagetitle">
+            <h1>Auditoria de Gestión Humana</h1>
+        </div>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -139,12 +143,12 @@ if ($rol == 3) {
                     <div class="card-body">
                         <p></p>
                         <!-- Button trigger modal  -->
-                        <button title="Agregar Especies" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarEspecies">
+                        <button title="Agregar Auditoria" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarAuditoria">
                             <i class="fas fa-plus"></i>
                         </button>
                         <div class="table-responsive">
                             <!-- Table with stripped rows -->
-                            <table class="table datatable" id="tablaEspecies">
+                            <table class="table datatable" id="tablaAuditoria">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -153,7 +157,6 @@ if ($rol == 3) {
                                         <th>Nombre</th>
                                         <th>Apellido</th>
                                         <th>Fecha</th>
-                                        <th>Estatus</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -181,28 +184,16 @@ if ($rol == 3) {
 <!-- Modal Agregar Ficha-->
 
 
-<div class="modal fade" id="modalAgregarEspecies" tabindex="-1" aria-labelledby="agregarEspeciesModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalAgregarAuditoria" tabindex="-1" aria-labelledby="agregarAuditoriaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content" style="background: #dcdcdc;">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalAgregarEspeciesLabel">CREA FICHA DEL TRABAJADOR </h5>
+                <h5 class="modal-title" id="modalAgregarAuditoriaLabel">CREA FICHA DEL TRABAJADOR </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="container mt-5">
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <label for="empresa" class="form-label">Seleccionar Empresa</label>
-                            <select class="form-select" id="empresa" name="empresa">
-                                <option value="" selected disabled>Seleccione una empresa</option>
-                                <option value="empresa1">Empresa 1</option>
-                                <option value="empresa2">Empresa 2</option>
-                                <option value="empresa3">Empresa 3</option>
-                                <option value="empresa4">Empresa 4</option>
-                            </select>
-                        </div>
 
-                    </div>
                     <div class="card-body">
                         <div class="step-progress">
                             <div class="step-line"></div>
@@ -212,10 +203,57 @@ if ($rol == 3) {
                             <div class="step-progress-item" id="progressStep3">3</div>
                             <div class="step-progress-item" id="progressStep4">4</div>
                         </div>
-                        <form id="pescadoForm">
+                        <form action="" id="empleadoForm">
                             <!-- Paso 1: Información Modelo/Serial -->
 
                             <div class="step" id="step1">
+
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label for="empresa" class="form-label">Seleccionar Empresa</label>
+                                        <select class="form-select" id="id_empresa" name="id_empresa" required>
+                                            <option value="" selected disabled>Seleccione una empresa</option>
+                                            <option value="1">INMARLACA • AGROD • ROBLAR</option>
+                                            <option value="2">DON RAMON Ml RANCHITO 093</option>
+                                            <option value="3">MAYOLLERA 078</option>
+                                            <option value="4">LAS CAMELIAS ASTREA 059</option>
+                                            <option value="5">FELTRINA • MOPORO CA PAZ 058</option>
+                                            <option value="6">GRUCASA CATA • COSTA 202 (01)</option>
+                                            <option value="7">INV MARINAS 203 SINERITA</option>
+                                            <option value="8">AQUAZUL 030</option>
+                                            <option value="9">BOGOTANA 072</option>
+                                            <option value="10">MONTE ALTO (COQUIVACOA) 111 N6.N7</option>
+                                            <option value="11">ACUATECNICA ARAPUEY 073 N6-N7</option>
+                                            <option value="12">COSTA LAGO 091 N6.N7</option>
+                                            <option value="13">DON SAUL 084 N6.N7</option>
+                                            <option value="14">HAC SAN MATEO 079 CC02 N6.N7</option>
+                                            <option value="15">INVERCIMA 092</option>
+                                            <option value="16">NAVA SERRADA MACANA 094</option>
+                                            <option value="17">MATAPALITO 083</option>
+                                            <option value="18">ANTARTICA 056</option>
+                                            <option value="19">ATLANTICO 003</option>
+                                            <option value="20">DESTAJO ATI-ANTICO</option>
+                                            <option value="21">IMDACA 048</option>
+                                            <option value="22">OPINDULCA 045</option>
+                                            <option value="23">ALTAMAR OBR N7 088</option>
+                                            <option value="24">HARIMARCA 070</option>
+                                            <option value="25">ECO FALCON AQUAMAUROA • OCEAN MARINE 107</option>
+                                            <option value="26">CIMA 053</option>
+                                            <option value="27">GANADERIA DEL LAGO LA VINA 089 N6.N7</option>
+                                            <option value="28">LOS CLAROS 090 CC 01</option>
+                                            <option value="29">MONTE CARMELO 090 CC02</option>
+                                            <option value="30">LAS PALMERAS 076 N6-N7</option>
+                                            <option value="31">ING 3030 EVENT 049</option>
+                                            <option value="32">ASERRADERO SAN ANDRES 080 N6</option>
+                                            <option value="33">LOS CLAROS GASTRONOMIA 096 N6</option>
+                                            <option value="34">LOS SOLES 098 N6</option>
+                                            <option value="35">INSPECTORES 106 N4</option>
+                                            <option value="36">RECO 097 N6</option>
+                                            <option value="37">NEGRON SEM 150 N6.N7</option>
+                                        </select>
+                                    </div>
+
+                                </div>
 
                                 <p>
                                     <strong><span class="badge bg-secondary text-white" style="font-size:118%;">DATOS PERSONALES</span></strong>
@@ -225,7 +263,7 @@ if ($rol == 3) {
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="cedula">Cédula</label>
-                                            <input class="form-control" type="number" id="cedula" name="cedula" placeholder="V/E">
+                                            <input class="form-control" type="number" id="cedula" name="cedula" placeholder="E.j.: 12345678">
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -269,7 +307,7 @@ if ($rol == 3) {
                                 <div class="row mb-4">
                                     <div class="col-sm-4">
                                         <label for="fecha_Nacimiento">Fecha de Nacimiento</label>
-                                        <input class="form-control" type="date" id="fecha_Nacimiento">
+                                        <input class="form-control" type="date" id="fecha_nacimiento">
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="edad" class="form-label">Edad</label>
@@ -372,11 +410,11 @@ if ($rol == 3) {
                                     <div class="col-md-6">
                                         <label class="form-label">¿Posee certificado de salud?</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="poseeCertificadoSalud" id="certificadoSi" value="si" required onclick="mostrarFechaVencimiento(true)">
+                                            <input class="form-check-input" type="radio" name="poseeCertificadoSalud" id="certificadosalud" value="si" required onclick="mostrarFechaVencimiento(true)">
                                             <label class="form-check-label" for="certificadoSi">Sí</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="poseeCertificadoSalud" id="certificadoNo" value="no" required onclick="mostrarFechaVencimiento(false)">
+                                            <input class="form-check-input" type="radio" name="poseeCertificadoSalud" id="certificadosalud" value="no" required onclick="mostrarFechaVencimiento(false)">
                                             <label class="form-check-label" for="certificadoNo">No</label>
                                         </div>
                                     </div>
@@ -384,7 +422,7 @@ if ($rol == 3) {
                                     <!-- Campo para fecha de vencimiento del certificado de salud -->
                                     <div id="campoVencimiento" style="display: none;" class="col-md-6">
                                         <label for="fechaVencimiento" class="form-label">Fecha de vencimiento</label>
-                                        <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento">
+                                        <input type="date" class="form-control" id="fechavencimientosalud" name="fechavencimientosalud">
                                     </div>
                                 </div>
                                 <!-- PASO 4 -->
@@ -400,11 +438,11 @@ if ($rol == 3) {
                                     <div class="col-md-6">
                                         <label class="form-label">¿Posee vehículos?</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="poseeVehiculo" id="vehiculoSi" value="si" required onclick="mostrarCamposVehiculo(true)">
+                                            <input class="form-check-input" type="radio" name="poseeVehiculo" id="vehiculo" value="si" required onclick="mostrarCamposVehiculo(true)">
                                             <label class="form-check-label" for="vehiculoSi">Sí</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="poseeVehiculo" id="vehiculoNo" value="no" required onclick="mostrarCamposVehiculo(false)">
+                                            <input class="form-check-input" type="radio" name="poseeVehiculo" id="vehiculo" value="no" required onclick="mostrarCamposVehiculo(false)">
                                             <label class="form-check-label" for="vehiculoNo">No</label>
                                         </div>
                                     </div>
@@ -445,8 +483,8 @@ if ($rol == 3) {
                                 <div class="row mb-4">
                                     <!-- Dirección de Habitación -->
                                     <div class="col-md-4">
-                                        <label for="direccionHabitacion" class="form-label">Dirección Habitación</label>
-                                        <input type="text" class="form-control" id="direccionHabitacion" name="direccionHabitacion" placeholder="Ingrese la dirección de su habitación">
+                                        <label for="direccionhabitacion" class="form-label">Dirección Habitación</label>
+                                        <input type="text" class="form-control" id="direccionhabitacion" name="direccionhabitacion" placeholder="Ingrese la dirección de su habitación">
                                     </div>
 
                                     <!-- Avenida -->
@@ -466,15 +504,15 @@ if ($rol == 3) {
                                     <div class="col-md-6">
                                         <label class="form-label">Seleccione el tipo de propiedad</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="tipo" id="edificio" value="edificio" onclick="mostrarCampoTipo()" required>
+                                            <input class="form-check-input" type="radio" name="tipo_propiedad" id="edificio" value="edificio" onclick="mostrarCampoTipo()" required>
                                             <label class="form-check-label" for="edificio">Edificio</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="tipo" id="casa" value="casa" onclick="mostrarCampoTipo()" required>
+                                            <input class="form-check-input" type="radio" name="tipo_propiedad" id="casa" value="casa" onclick="mostrarCampoTipo()" required>
                                             <label class="form-check-label" for="casa">Casa</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="tipo" id="quinta" value="quinta" onclick="mostrarCampoTipo()" required>
+                                            <input class="form-check-input" type="radio" name="tipo_propiedad" id="quinta" value="quinta" onclick="mostrarCampoTipo()" required>
                                             <label class="form-check-label" for="quinta">Quinta</label>
                                         </div>
                                     </div>
@@ -512,15 +550,15 @@ if ($rol == 3) {
                                     <!-- Campo para teléfonos -->
                                     <div class="col-md-4">
                                         <label class="form-label">Teléfono de habitación</label>
-                                        <input type="number" class="form-control" id="telefonoHabitacion" name="telefonoHabitacion" placeholder="Ingrese su teléfono de habitación">
+                                        <input type="number" class="form-control" id="telefonohabitacion" name="telefonohabitacion" placeholder="Ingrese su teléfono de habitación">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">Teléfono celular</label>
-                                        <input type="number" class="form-control" id="telefonoCelular" name="telefonoCelular" placeholder="Ingrese su teléfono celular">
+                                        <input type="number" class="form-control" id="telefonocelular" name="telefonocelular" placeholder="Ingrese su teléfono celular">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">Otro teléfono</label>
-                                        <input type="number" class="form-control" id="otroTelefono" name="otroTelefono" placeholder="Ingrese otro teléfono">
+                                        <input type="number" class="form-control" id="otrotelefono" name="otrotelefono" placeholder="Ingrese otro teléfono">
                                     </div>
                                 </div>
                                 <!-- PASO 9 -->
@@ -531,11 +569,6 @@ if ($rol == 3) {
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico @" required>
                                     </div>
 
-                                    <!-- Campo para Empresa de donde viene -->
-                                    <div class="col-md-6">
-                                        <label for="empresa" class="form-label">Empresa donde labora</label>
-                                        <input type="text" class="form-control" id="empresa" name="empresa" placeholder="Ingrese el nombre de la empresa" required>
-                                    </div>
                                 </div>
 
 
@@ -585,7 +618,7 @@ if ($rol == 3) {
                                                 class="form-check-input"
                                                 type="radio"
                                                 name="estadoEstudio"
-                                                id="estudioSi"
+                                                id="graduado"
                                                 value="si"
                                                 required
                                                 onclick="mostrarOpcionesEstudio('si')">
@@ -596,7 +629,7 @@ if ($rol == 3) {
                                                 class="form-check-input"
                                                 type="radio"
                                                 name="estadoEstudio"
-                                                id="estudioNo"
+                                                id="graduado"
                                                 value="no"
                                                 required
                                                 onclick="mostrarOpcionesEstudio('no')">
@@ -612,7 +645,7 @@ if ($rol == 3) {
                                                 class="form-check-input"
                                                 type="radio"
                                                 name="estudiandoActualmente"
-                                                id="estudiandoSi"
+                                                id="estudiando"
                                                 value="si"
                                                 required
                                                 onclick="mostrarCamposEstudio(true)">
@@ -623,7 +656,7 @@ if ($rol == 3) {
                                                 class="form-check-input"
                                                 type="radio"
                                                 name="estudiandoActualmente"
-                                                id="estudiandoNo"
+                                                id="estudiando"
                                                 value="no"
                                                 required
                                                 onclick="mostrarCamposEstudio(false)">
@@ -641,8 +674,8 @@ if ($rol == 3) {
                                                 <input
                                                     type="text"
                                                     class="form-control"
-                                                    id="institucion"
-                                                    name="institucion"
+                                                    id="institucion_actual"
+                                                    name="institucion_actual"
                                                     placeholder="Ingrese la institución">
                                             </div>
                                             <div class="col-md-4">
@@ -650,8 +683,8 @@ if ($rol == 3) {
                                                 <input
                                                     type="text"
                                                     class="form-control"
-                                                    id="carrera"
-                                                    name="carrera"
+                                                    id="carrera_actual"
+                                                    name="carrera_actual"
                                                     placeholder="Ingrese la carrera">
                                             </div>
                                             <div class="col-md-4">
@@ -659,8 +692,8 @@ if ($rol == 3) {
                                                 <input
                                                     type="text"
                                                     class="form-control"
-                                                    id="especialidad"
-                                                    name="especialidad"
+                                                    id="especialidad_actual"
+                                                    name="especialidad_actual"
                                                     placeholder="Ingrese la especialidad">
                                             </div>
                                         </div>
@@ -673,8 +706,8 @@ if ($rol == 3) {
                                                         <input
                                                             type="time"
                                                             class="form-control"
-                                                            id="horarioInicio"
-                                                            name="horarioInicio"
+                                                            id="horario_inicio"
+                                                            name="horario_inicio"
                                                             min="08:00"
                                                             max="18:00"
                                                             required>
@@ -684,8 +717,8 @@ if ($rol == 3) {
                                                         <input
                                                             type="time"
                                                             class="form-control"
-                                                            id="horarioFin"
-                                                            name="horarioFin"
+                                                            id="horario_fin"
+                                                            name="horario_fin"
                                                             min="08:00"
                                                             max="18:00"
                                                             required>
@@ -726,8 +759,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="tienePosgrado"
-                                                id="posgradoSi"
+                                                name="postgrado"
+                                                id="postgrado"
                                                 value="si"
                                                 required
                                                 onclick="mostrarTipoPosgrado(true)">
@@ -737,8 +770,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="tienePosgrado"
-                                                id="posgradoNo"
+                                                name="postgrado"
+                                                id="postgrado"
                                                 value="no"
                                                 required
                                                 onclick="mostrarTipoPosgrado(false)">
@@ -749,12 +782,12 @@ if ($rol == 3) {
                                     <!-- Campo para seleccionar el tipo de posgrado -->
                                     <div class="row mb-4" id="tipoposgrado" style="display: none;">
                                         <div class="col-md-4">
-                                            <label for="posgrado" class="form-label">Seleccione el tipo de posgrado</label>
-                                            <select class="form-select" id="posgrado" name="tipoposgrado" onchange="mostrarDetallePosgrado(this.value)">
+                                            <label for="tipoposgrado" class="form-label">Seleccione el tipo de posgrado</label>
+                                            <select class="form-select" id="tipopostgrado" name="tipopostgrado" onchange="mostrarDetallePosgrado(this.value)">
                                                 <option value="" selected disabled>Seleccione una opción</option>
                                                 <option value="maestria">Maestría</option>
                                                 <option value="doctorado">Doctorado</option>
-                                                <option value="phd">PhO</option>
+                                                <option value="phd">PhD</option>
                                             </select>
                                         </div>
                                         <!-- Campo adicional para especificar "¿En qué?" -->
@@ -763,8 +796,8 @@ if ($rol == 3) {
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                id="especificacion"
-                                                name="especificacion"
+                                                id="especificaciones"
+                                                name="especificaciones"
                                                 placeholder="Ingrese la especialidad del posgrado">
                                         </div>
                                     </div>
@@ -789,8 +822,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="tipoJornada"
-                                                id="jornadaCompleta"
+                                                name="tipojornada"
+                                                id="tipojornada"
                                                 value="completo"
                                                 required>
                                             <label class="form-check-label" for="jornadaCompleta">Tiempo completo</label>
@@ -799,8 +832,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="tipoJornada"
-                                                id="jornadaParcial"
+                                                name="tipojornada"
+                                                id="tipojornada"
                                                 value="parcial"
                                                 required>
                                             <label class="form-check-label" for="jornadaParcial">Tiempo parcial</label>
@@ -813,8 +846,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="realizariaGuardia"
-                                                id="guardiaSi"
+                                                name="realizariaguardia"
+                                                id="realizariaguardia"
                                                 value="si"
                                                 required
                                                 onclick="mostrarOpcionesGuardia(true)">
@@ -824,8 +857,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="realizariaGuardia"
-                                                id="guardiaNo"
+                                                name="realizariaguardia"
+                                                id="realizariaguardia"
                                                 value="no"
                                                 required
                                                 onclick="mostrarOpcionesGuardia(false)">
@@ -838,8 +871,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="horario"
-                                                id="horarioManana"
+                                                name="horarioguardia"
+                                                id="horarioguardia"
                                                 value="mañana"
                                                 required>
                                             <label class="form-check-label" for="horarioManana">Mañana</label>
@@ -848,8 +881,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="horario"
-                                                id="horarioTarde"
+                                                name="horarioguardia"
+                                                id="horarioguardia"
                                                 value="tarde"
                                                 required>
                                             <label class="form-check-label" for="horarioTarde">Tarde</label>
@@ -858,8 +891,8 @@ if ($rol == 3) {
                                             <input
                                                 class="form-check-input"
                                                 type="radio"
-                                                name="horario"
-                                                id="horarioNoche"
+                                                name="horarioguardia"
+                                                id="horarioguardia"
                                                 value="noche"
                                                 required>
                                             <label class="form-check-label" for="horarioNoche">Noche</label>
@@ -870,7 +903,7 @@ if ($rol == 3) {
                                 <div class="row mb-4" id="opcionesGuardia" style="display: none;">
                                     <div class="col-md-4">
                                         <label for="tipoGuardia" class="form-label">Seleccione el tipo de guardia</label>
-                                        <select class="form-select" id="tipoGuardia" name="tipoGuardia">
+                                        <select class="form-select" id="tipoguardia" name="tipoguardia">
                                             <option value="" selected disabled>Seleccione una opción</option>
                                             <option value="sabado">Sábado</option>
                                             <option value="domingo">Domingo</option>
@@ -917,15 +950,15 @@ if ($rol == 3) {
                                     <div class="col-md-4" id="calificacionhabilidad" style="display: none;position: relative;top: -110px;left: 30%;">
                                         <label for="nivel" class="form-label">Seleccione su nivel de habilidad</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="nivel" id="nivelR" value="regular">
+                                            <input class="form-check-input" type="radio" name="nivel" id="nivel" value="regular">
                                             <label class="form-check-label" for="nivelR">R</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="nivel" id="nivelB" value="bien">
+                                            <input class="form-check-input" type="radio" name="nivel" id="nivel" value="bien">
                                             <label class="form-check-label" for="nivelB">B </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="nivel" id="nivelM" value="muyBien">
+                                            <input class="form-check-input" type="radio" name="nivel" id="nivel" value="muyBien">
                                             <label class="form-check-label" for="nivelM">M </label>
                                         </div>
                                     </div>
@@ -946,111 +979,90 @@ if ($rol == 3) {
                                     <form id="speciesForm">
                                         <div class="row mb-3 g-3">
                                             <div class="mb-3 col-sm-4">
-                                                <label for="nombre" class="form-label">Nombre</label>
-                                                <input type="text" class="form-control" id="nombre" placeholder="ingrese el nombre">
+                                                <label for="nombrefamiliar" class="form-label">Nombre</label>
+                                                <input type="text" class="form-control" id="nombrefamiliar" placeholder="Ingrese el nombre" required>
                                             </div>
 
                                             <div class="mb-3 col-sm-4">
-                                                <label for="apellido" class="form-label">Apellido</label>
-                                                <input type="text" class="form-control" id="apellido" placeholder="ingrese el Apellido">
+                                                <label for="apellidofamiliar" class="form-label">Apellido</label>
+                                                <input type="text" class="form-control" id="apellidofamiliar" placeholder="Ingrese el apellido" required>
                                             </div>
                                             <div class="mb-3 col-sm-4">
-                                                <label for="cedula" class="form-label">Cédula</label>
-                                                <input type="text" class="form-control" id="cedula" placeholder="ingrese la cedula">
+                                                <label for="cedulafamiliar" class="form-label">Cédula</label>
+                                                <input type="text" class="form-control" id="cedulafamiliar" placeholder="Ingrese la cédula" required>
                                             </div>
-
                                         </div>
-                                        <div class="row g-3">
 
+                                        <div class="row g-3">
                                             <div class="mb-3 col-sm-4">
                                                 <label for="parentesco" class="form-label">Parentesco</label>
-                                                <input type="text" class="form-control" id="parentesco" name="parentesco" placeholder="Ingrese el Parentesco">
+                                                <input type="text" class="form-control" id="parentesco" placeholder="Ingrese el parentesco" required>
                                             </div>
                                             <div class="mb-3 col-sm-4">
-                                                <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-                                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Seleccione la Fecha de Nacimiento">
+                                                <label for="fecha_nacimiento_familiar" class="form-label">Fecha de Nacimiento</label>
+                                                <input type="date" class="form-control" id="fecha_nacimiento_familiar" placeholder="Seleccione la fecha de nacimiento" required>
                                             </div>
                                             <div class="mb-3 col-sm-6">
                                                 <label class="form-label d-block">Sexo</label>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" id="sexof" name="sexo" value="F">
-                                                    <label class="form-check-label" for="sexof">Femenina</label>
+                                                    <input class="form-check-input" type="radio" id="sexofamiliar" name="sexofamiliar" value="F">
+                                                    <label class="form-check-label" for="sexofamiliar">Femenino</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" id="sexom" name="sexo" value="M">
-                                                    <label class="form-check-label" for="sexom">Masculino</label>
+                                                    <input class="form-check-input" type="radio" id="sexofamiliar" name="sexofamiliar" value="M">
+                                                    <label class="form-check-label" for="sexofamiliar">Masculino</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-4">
+                                            <div class="col-md-4">
+                                                <label class="form-label">¿Actualmente trabaja?</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="trabajafamiliar" id="trabajafamiliarSi" value="si" onclick="mostrarOpcionesTrabajo(true)">
+                                                    <label class="form-check-label" for="trabajafamiliarSi">Sí</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="trabajafamiliar" id="trabajafamiliar" value="no" onclick="mostrarOpcionesTrabajo(false)">
+                                                    <label class="form-check-label" for="trabajafamiliar">No</label>
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-4" id="campoDondeTrabaja" style="display: none;">
+                                                <label for="dondetrabajafamiliar" class="form-label">¿Dónde trabaja?</label>
+                                                <input type="text" class="form-control" id="dondetrabajafamiliar" placeholder="Ingrese el lugar de trabajo">
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary mt-3" id="agregarAuditoria">Guardar <i class="fas fa-plus"></i></button>
 
                                         </div>
-                                        <form>
-                                            <!-- Campo para seleccionar si trabaja -->
-                                            <div class="row mb-4">
-                                                <div class="col-md-4">
-                                                    <label class="form-label">¿Actualmente trabaja?</label>
-                                                    <div class="form-check">
-                                                        <input
-                                                            class="form-check-input"
-                                                            type="radio"
-                                                            name="trabaja"
-                                                            id="trabajaSi"
-                                                            value="si"
-                                                            onclick="mostrarOpcionesTrabajo(true)">
-                                                        <label class="form-check-label" for="trabajaSi">Sí</label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input
-                                                            class="form-check-input"
-                                                            type="radio"
-                                                            name="trabaja"
-                                                            id="trabajaNo"
-                                                            value="no"
-                                                            onclick="mostrarOpcionesTrabajo(false)">
-                                                        <label class="form-check-label" for="trabajano">No</label>
-                                                    </div>
-                                                </div>
+                                    </form>
+                                    <div id="alertModalCrearAuditoria">
 
-                                                <!-- Campo para especificar dónde trabaja -->
-                                                <div class="col-md-4" id="campoDondeTrabaja" style="display: none;">
-                                                    <label for="dondeTrabaja" class="form-label">¿Dónde trabaja?</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        id="dondeTrabaja"
-                                                        name="dondeTrabaja"
-                                                        placeholder="Ingrese el lugar de trabajo">
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary mt-3" id="agregarAuditoria"><i class="fas fa-plus"></i></button>
-                                            </div>
-                                        </form>
-                                </div>
-                                <!-- Tabla de datos -->
-
-
-                                <div class="row" id="temporal_familiar">
-                                    <div class="col-sm-12 table-responsive">
-                                        <table class="table table-bordered table-striped table-hover" id="multiples_auditoria" style="display: none;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>Cédula</th>
-                                                    <th>Parentesco</th>
-                                                    <th>Fecha</th>
-                                                    <th>Sexo</th>
-                                                    <th>Trabaja</th>
-                                                    <th id="columnaDonde">Dónde</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            </tbody>
-                                        </table>
+                                    </div>
+                                    <div class="row" id="contenedor_datos_familiar">
+                                        <div class="col-sm-12 table-responsive">
+                                            <table class="table table-bordered table-striped table-hover" id="multiples_familiar">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Apellido</th>
+                                                        <th>Cédula</th>
+                                                        <th>Parentesco</th>
+                                                        <th>Fecha</th>
+                                                        <th>Sexo</th>
+                                                        <th>Trabaja</th>
+                                                        <th id="columnaDonde">Dónde</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Aquí se agregarán los datos de los familiares -->
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1058,46 +1070,11 @@ if ($rol == 3) {
 
                                 <!-- Contenido del Paso 4 -->
                                 <button type="button" class="btn btn-secondary" onclick="prevStep(4)">Anterior</button>
-                                <button type="submit" id="agregar_jornada" class="btn btn-success">Guardar</button>
+                                <button type="submit" id="agregar_auditoria" class="btn btn-success">Enviar</button>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Modal Visualizar Especies-->
-
-<div class="modal fade" id="modalVisualizarEspecies" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modalVisualizarEspeciesLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalVisualizarEspeciesLabel">Especies</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hove">
-                        <tr>
-                            <th>Especie</th>
-                            <th>Fecha</th>
-                            <th>Estatus</th>
-                        </tr>
-                        <tr>
-                            <td id="especie_especies"></td>
-                            <td id="fecha_especies"></td>
-                            <td id="estatus_especies"></td>
-                        </tr>
-                    </table>
-                </div>
-
-            </div>
-            <div class="modal-footer">
             </div>
         </div>
     </div>
