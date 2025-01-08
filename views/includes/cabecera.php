@@ -17,7 +17,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     session_start();
     $usuario            = $_SESSION['usuario'];
     $id_usuario         = $_SESSION['user_id'];
-    $foto               = $_SESSION['foto'];
+
     $rol           = $_SESSION['rol_usuario'];
 
     if (empty($usuario) && empty($id_usuario)) {

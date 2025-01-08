@@ -68,7 +68,7 @@ function mostrarCamposEstudio(estaEstudiando) {
     campos.style.display = "none"; // Oculta los campos adicionales
     // Limpia los campos adicionales
     document.getElementById("institucion").value = "";
-    document.getElementById("carrera").value = "";
+    document.getElementById("carrera_actual").value = "";
     document.getElementById("especialidad").value = "";
     document.getElementById("horario").value = "";
   }
@@ -132,7 +132,6 @@ function mostrarHabilidades() {
 }
 
 // Función para mostrar u ocultar el campo de lugar de trabajo
-// Función para mostrar u ocultar campos según selección
 function mostrarOpcionesTrabajo(trabaja) {
   const campoDondeTrabaja = document.getElementById("campoDondeTrabaja");
   const contenedorDatos = document.getElementById("temporal_familiar");
@@ -170,7 +169,7 @@ $(document).ready(function () {
     processing: false,
     serverSide: true,
     ajax: "index.php?page=listarAuditoria",
-    pageLength: 4,
+    pageLength: 10,
     createdRow: function (row, data, dataIndex) {
       // Puedes agregar lógica adicional aquí si es necesario
     },
@@ -247,21 +246,21 @@ if ((agregar_auditoria = document.getElementById("agregar_auditoria"))) {
       fecha_nacimiento == "" ||
       parentesco == ""
     ) {
-      /*  Swal.fire({
+      Swal.fire({
         icon: "error",
         title: "Campos vacíos",
         text: "Todos los campos obligatorios deben ser completados.",
         confirmButtonColor: "#3085d6",
-      }); */
+      });
       return;
     }
 
-    // Realizar la solicitud AJAX
     $.ajax({
-      url: "index.php?page=registrarAuditoria", // Asegúrate de que esta URL sea correcta
+      url: "index.php?page=registrarAuditoria",
       type: "POST",
       dataType: "json",
       data: {
+        id_empresa: document.getElementById("id_empresa").value,
         nombre: nombre,
         apellido: apellido,
         cedula: cedula,
@@ -279,12 +278,12 @@ if ((agregar_auditoria = document.getElementById("agregar_auditoria"))) {
           // Cerrar el modal y mostrar mensaje de éxito
           $("#modalAgregarAuditoria").modal("hide");
 
-          /*        Swal.fire({
+          Swal.fire({
             icon: "success",
             confirmButtonColor: "#3085d6",
             title: response.data.message,
             text: response.data.info,
-          }); */
+          });
 
           // Recargar la tabla o realizar cualquier acción necesaria
           $("#tablaAuditoria").DataTable().ajax.reload();
@@ -299,7 +298,6 @@ if ((agregar_auditoria = document.getElementById("agregar_auditoria"))) {
         }
       },
       error: function () {
-        // Mostrar mensaje de error si falla la solicitud AJAX
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -311,7 +309,7 @@ if ((agregar_auditoria = document.getElementById("agregar_auditoria"))) {
   }
 }
 
-// Variable para el botón "Agregar Auditoría"
+// Variable para temporal_familiar
 var agregarAuditoria;
 if ((agregarAuditoria = document.getElementById("agregarAuditoria"))) {
   agregarAuditoria.addEventListener("click", agregarAuditoriaHandler, false);
@@ -341,6 +339,7 @@ if ((agregarAuditoria = document.getElementById("agregarAuditoria"))) {
       parentesco === "" ||
       fecha_nacimiento_familiar === "" ||
       sexofamiliar === "" ||
+      dondetrabajafamiliar === "" ||
       trabajafamiliar === ""
     ) {
       document
@@ -374,8 +373,12 @@ if ((agregarAuditoria = document.getElementById("agregarAuditoria"))) {
           .getElementById("cont-loader")
           .setAttribute("style", "display:none;");
         if (response.data.success === true) {
+          document
+            .getElementById("multiples_familiar")
+            .removeAttribute("style");
+
           let contador = response.data.contador || 1;
-          let id_contenedor = "contenedor_" + contador;
+          let id_contenedor = "contenedor_" + response.data.id_temporal;
 
           var cont_elemento = document.createElement("tr");
           cont_elemento.setAttribute("id", id_contenedor);
@@ -420,7 +423,7 @@ if ((agregarAuditoria = document.getElementById("agregarAuditoria"))) {
           btn_delete.setAttribute("type", "button");
           btn_delete.setAttribute(
             "onclick",
-            "eliminarAuditoriaTemporal(" + response.data.id_auditoria + ")"
+            "eliminarAuditoriaTemporal(" + response.data.id_temporal + ")"
           );
           btn_delete.setAttribute("style", "background:#dc3545; color: #FFF;");
 
@@ -466,35 +469,68 @@ if ((agregarAuditoria = document.getElementById("agregarAuditoria"))) {
       "alertModalCrearAuditoria"
     );
 
+    document.getEl;
+
     document.getElementById("agregarAuditoria").removeAttribute("disabled");
     document.getElementById("agregarAuditoria").value = "";
   }
 }
 
-function eliminarAuditoriaTemporal(id) {
-  console.log("ID de auditoría: " + id);
+// Eliminar temporal_familiar
+function eliminarAuditoriaTemporal(id_temporal) {
+  Swal.fire({
+    title: "¿Deseas remover La informacion del grupo familiar?",
+    text: "Luego de remover La informacion del grupo familiar podrás agregar una nueva",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "index.php?page=eliminarAuditoriaTemporal",
+        type: "post",
+        dataType: "json",
+        data: {
+          id_temporal: id_temporal,
+        },
+      })
+        .done(function (response) {
+          if (response.data.success === true) {
+            const contador = response.data.contador;
 
-  $.ajax({
-    url: "index.php?page=eliminarAuditoriaTemporal",
-    type: "POST",
-    dataType: "json",
-    data: {
-      id_auditoria: id,
-    },
-    success: function (response) {
-      if (response.data.success === true) {
-        // Eliminar la fila de la tabla
-        var row = document.getElementById("contenedor_" + id);
-        if (row) row.remove();
+            const id_contenedor = "contenedor_" + response.data.id_temporal;
 
-        // Mostrar un mensaje de éxito
-        alert("Auditoría eliminada exitosamente.");
-      } else {
-        alert(response.data.message);
-      }
-    },
-    error: function () {
-      alert("Error al intentar eliminar la auditoría.");
-    },
+            Swal.fire({
+              icon: "success",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+
+            const contenedor_padre = document.getElementById(id_contenedor);
+            if (contenedor_padre) {
+              contenedor_padre.remove();
+            }
+
+            if (response.data.contador === 0) {
+              document.getElementById("multiples_familiar").style =
+                "display:none;";
+            }
+          } else {
+            Swal.fire({
+              icon: "error",
+              confirmButtonColor: "#3085d6",
+              title: response.data.message,
+              text: response.data.info,
+            });
+          }
+        })
+        .fail(function () {
+          console.log("Error en la solicitud AJAX");
+        });
+    }
   });
 }

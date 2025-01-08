@@ -980,23 +980,23 @@ if ($rol == 3) {
                                         <div class="row mb-3 g-3">
                                             <div class="mb-3 col-sm-4">
                                                 <label for="nombrefamiliar" class="form-label">Nombre</label>
-                                                <input type="text" class="form-control" id="nombrefamiliar" placeholder="Ingrese el nombre" required>
+                                                <input type="text" class="form-control" id="nombrefamiliar" onkeyup="mayus(this);" placeholder="Ingrese el nombre" required>
                                             </div>
 
                                             <div class="mb-3 col-sm-4">
                                                 <label for="apellidofamiliar" class="form-label">Apellido</label>
-                                                <input type="text" class="form-control" id="apellidofamiliar" placeholder="Ingrese el apellido" required>
+                                                <input type="text" class="form-control" id="apellidofamiliar" onkeyup="mayus(this);" placeholder="Ingrese el apellido" required>
                                             </div>
                                             <div class="mb-3 col-sm-4">
                                                 <label for="cedulafamiliar" class="form-label">Cédula</label>
-                                                <input type="text" class="form-control" id="cedulafamiliar" placeholder="Ingrese la cédula" required>
+                                                <input type="number" class="form-control" id="cedulafamiliar" placeholder="E.J:123456" required>
                                             </div>
                                         </div>
 
                                         <div class="row g-3">
                                             <div class="mb-3 col-sm-4">
                                                 <label for="parentesco" class="form-label">Parentesco</label>
-                                                <input type="text" class="form-control" id="parentesco" placeholder="Ingrese el parentesco" required>
+                                                <input type="text" class="form-control" id="parentesco" onkeyup="mayus(this);" placeholder="Ingrese el parentesco" required>
                                             </div>
                                             <div class="mb-3 col-sm-4">
                                                 <label for="fecha_nacimiento_familiar" class="form-label">Fecha de Nacimiento</label>
@@ -1030,7 +1030,7 @@ if ($rol == 3) {
 
                                             <div class="col-md-4" id="campoDondeTrabaja" style="display: none;">
                                                 <label for="dondetrabajafamiliar" class="form-label">¿Dónde trabaja?</label>
-                                                <input type="text" class="form-control" id="dondetrabajafamiliar" placeholder="Ingrese el lugar de trabajo">
+                                                <input type="text" class="form-control" id="dondetrabajafamiliar" onkeyup="mayus(this);" placeholder=" Ingrese el lugar de trabajo">
                                             </div>
                                         </div>
 
@@ -1044,7 +1044,7 @@ if ($rol == 3) {
                                     </div>
                                     <div class="row" id="contenedor_datos_familiar">
                                         <div class="col-sm-12 table-responsive">
-                                            <table class="table table-bordered table-striped table-hover" id="multiples_familiar">
+                                            <table class="table table-bordered table-striped table-hover" id="multiples_familiar" style="display:none;">
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre</th>

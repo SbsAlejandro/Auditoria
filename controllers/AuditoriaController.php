@@ -282,14 +282,15 @@ class AuditoriaController
                     'success' => true,
                     'message' => 'Familiar agregado exitosamente',
                     'info' => 'El familiar se ha agregado a la lista temporal.',
-                    'nombre' => $nombre,
-                    'apellido' => $apellido,
+                    'nombrefamiliar' => $nombrefamiliar,
+                    'cedulafamiliar' => $cedulafamiliar,
                     'cedula' => $cedula,
-                    //'parentesco' => $parentesco,
-                    //'fecha_nacimiento' => $fecha_nacimiento,
-                    //'sexo' => $sexo,
-                    //'trabaja' => $trabaja,
-                    //'donde_trabaja' => $donde_trabaja,
+                    'parentesco' => $parentesco,
+                    'fecha_nacimiento_familiar' => $fecha_nacimiento_familiar,
+                    'sexofamiliar' => $sexofamiliar,
+                    'trabajafamiliar' => $trabajafamiliar,
+                    'dondetrabajafamiliar' => $dondetrabajafamiliar,
+
                 ],
                 'code' => 1,
             ];
@@ -328,6 +329,29 @@ class AuditoriaController
         $dondetrabajafamiliar = Validacion::limpiar_cadena($_POST['dondetrabajafamiliar']);
         $id_usuario = $_SESSION['user_id'];
 
+
+        /* Validar que se repita la cedula */
+        $entradacedula = $modelAuditoria->validarEntradaCedula($cedulafamiliar);
+
+        foreach ($entradacedula as $entradacedula) {
+            $id_entrada_cedula = $entradacedula['id'];
+        }
+        if (!empty($id_entrada_cedula)) {
+            $data = [
+                'data' => [
+                    'success'            =>  false,
+                    'message'            => '  ya la sido ingresado el día de hoy',
+                    'info'               =>  ' '
+                ],
+                'code' => 0,
+            ];
+
+            echo json_encode($data);
+            exit();
+        }
+
+
+
         $datos = array(
             'nombrefamiliar' => $nombrefamiliar,
             'apellidofamiliar' => $apellidofamiliar,
@@ -342,6 +366,8 @@ class AuditoriaController
 
         $resultado = $modelAuditoria->registrarAuditoriaTemporal($datos);
 
+        $id_temporal = $resultado['ultimo_id'];
+
         if ($resultado) {
             $data = [
                 'data' => [
@@ -355,6 +381,7 @@ class AuditoriaController
                     'trabajafamiliar' => $trabajafamiliar,
                     'dondetrabajafamiliar' => $dondetrabajafamiliar,
                     'id_usuario' => $id_usuario,
+                    'id_temporal'   => $id_temporal,
                 ],
                 'code' => 1,
             ];
@@ -373,8 +400,56 @@ class AuditoriaController
         }
     }
 
-    
+
+    public function eliminarAuditoriaTemporal()
+    {
+        $modelAuditoria = new AuditoriaModel();
+
+
+        $id_temporal = $_POST['id_temporal'];
+
+
+        $eliminar_item = $modelAuditoria->eliminarAuditoriaTemporal($id_temporal);
+
+
+        $obtener_contador_auditoria_temporales = $modelAuditoria->obtenerContadorAuditoriaTemporales();
+
+        foreach ($obtener_contador_auditoria_temporales as $item) {
+            $contador_auditoria_temporales = $item['contador_auditoria_temporales'];
+        }
+
+        if ($eliminar_item) {
+
+            $data = [
+                'data' => [
+                    'success'       => true,
+                    'message'       => 'La informacion del grupo familiar fue eliminado exitosamente',
+                    'info'          => '',
+                    'id_temporal'   => $id_temporal,
+                    'contador'      => $contador_auditoria_temporales,
+                ],
+                'code' => 1,
+            ];
+            echo json_encode($data);
+            exit();
+        } else {
+
+            $data = [
+                'data' => [
+                    'error'   => false,
+                    'message' => 'La informacion del grupo familiar fue eliminado exitosamente',
+                    'info'    => '',
+                    'contador'  => $contador_auditoria_temporales,
+                ],
+                'code' => 0,
+            ];
+            echo json_encode($data);
+            exit();
+        }
 
 
 
+        echo json_encode($data);
+        exit();
+    }
 }

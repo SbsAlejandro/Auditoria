@@ -125,19 +125,26 @@ class AuditoriaModel extends ModeloBase
       echo $e->getMessage();
     }
   }
-
-  public function eliminarAuditoriaTemporal($id)
+  public function eliminarAuditoriaTemporal($id_auditoria)
   {
     $db = new ModeloBase();
     $query = "DELETE FROM temporal_familiar_auditoria
-  WHERE id=$id";
+		WHERE id=$id_auditoria";
     $resultado = $db->obtenerTodos($query);
     return $resultado;
   }
-  public function obtenerContadorAuditoriasTemporales()
+  public function obtenerContadorAuditoriaTemporales()
   {
     $db = new ModeloBase();
-    $query = "SELECT COUNT(*) AS contador_auditorias_temporales FROM temporal_familiar_auditoria";
+    $query = "SELECT COUNT(*) AS contador_auditoria_temporales FROM temporal_familiar_auditoria";
+    $resultado = $db->obtenerTodos($query);
+    return $resultado;
+  }
+
+  public function validarEntradaCedula($cedulafamiliar)
+  {
+    $db = new ModeloBase();
+    $query = "SELECT * FROM temporal_familiar_auditoria WHERE cedulafamiliar = '$cedulafamiliar' ";
     $resultado = $db->obtenerTodos($query);
     return $resultado;
   }
